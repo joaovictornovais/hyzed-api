@@ -23,7 +23,7 @@ public class ExceptionsHandler {
     @ExceptionHandler(InvalidArgumentsException.class)
     public ResponseEntity<StandardError> invalidArguments(InvalidArgumentsException e, HttpServletRequest request) {
         StandardError error = new StandardError(
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 "Invalid Arguments",
                 e.getMessage(),
                 request.getRequestURI()
