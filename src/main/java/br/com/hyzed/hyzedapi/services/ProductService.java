@@ -101,4 +101,19 @@ public class ProductService {
         return product;
     }
 
+    public Product removeImageFromProduct(Long productId, Long imageId) {
+        Product product = findById(productId);
+        Image image = productImageRepository.findById(imageId).orElseThrow(
+                () -> new EntityNotFoundException("Image not found"));
+
+        if (product.getImages().contains(image)) {
+            productImageRepository.deleteById(image.getId());
+            product.getImages().remove(image);
+            return product;
+        }
+
+        throw new InvalidArgumentsException("This image isn't from this product!");
+    }
+
+
 }

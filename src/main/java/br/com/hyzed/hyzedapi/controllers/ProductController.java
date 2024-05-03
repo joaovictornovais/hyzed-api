@@ -63,4 +63,9 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.removeVarietyFromProduct(id, data));
     }
 
+    @DeleteMapping("/{id}/images")
+    public ResponseEntity<Product> removeImageFromProduct(@PathVariable Long id, @RequestParam("imageId") Long imageId) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.removeImageFromProduct(id, imageId));
+    }
+
 }
