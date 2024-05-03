@@ -86,4 +86,19 @@ public class ProductService {
         return productSizeRepository.findBySizeAndProduct(size, product);
     }
 
+    public Product removeVarietyFromProduct(Long id, SizeDTO sizeDTO) {
+        Product product = findById(id);
+        Optional<Size> size = findBySizeAndProduct(sizeDTO.size(), product);
+
+        if (size.isEmpty()) throw new InvalidArgumentsException("There's no variety for this size");
+        if (sizeDTO.quantity() < 0) throw new InvalidArgumentsException("Quantity to be removed should not be less than 0");
+        if (size.get().getQuantity() < sizeDTO.quantity()) throw new InvalidArgumentsException(
+                "The quantity to be excluded is greater than the total quantity");
+
+        size.get().setQuantity(size.get().getQuantity() - sizeDTO.quantity());
+        productSizeRepository.save(size.get());
+
+        return product;
+    }
+
 }

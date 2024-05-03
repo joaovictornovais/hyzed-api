@@ -58,4 +58,9 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.addVarietyToProduct(id, data));
     }
 
+    @DeleteMapping("/{id}/sizes")
+    public ResponseEntity<Product> removeVarietyFromProduct(@PathVariable Long id, @Valid @RequestBody SizeDTO data) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.removeVarietyFromProduct(id, data));
+    }
+
 }
