@@ -62,7 +62,7 @@ public class ProductService {
     public Product removeVarietyFromProduct(Long id, SizeDTO sizeDTO) {
         Product product = findById(id);
         sizeService.removeSize(product, sizeDTO);
-        return product;
+        return findById(id);
     }
 
     public Product removeImageFromProduct(Long productId, Long imageId) {
