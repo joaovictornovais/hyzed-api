@@ -6,8 +6,10 @@ import br.com.hyzed.hyzedapi.domain.product.SizeDTO;
 import br.com.hyzed.hyzedapi.domain.product.Sizes;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.repositories.ProductSizeRepository;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,6 +54,11 @@ public class SizeService {
 
     public Optional<Size> findBySizeAndProduct(Sizes size, Product product) {
         return sizeRepository.findBySizeAndProduct(size, product);
+    }
+
+    public void removeAllSizesFromProduct(Product product) {
+        List<Size> sizes = sizeRepository.findAllByProduct(product);
+        sizeRepository.deleteAllInBatch(sizes);
     }
 
 }

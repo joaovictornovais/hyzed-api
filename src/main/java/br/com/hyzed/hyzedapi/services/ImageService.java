@@ -8,6 +8,7 @@ import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.repositories.ProductImageRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,17 +27,22 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public void removeImage(Product product, Long imageId) {
+    public Image removeImage(Product product, Long imageId) {
         Image image = findImageById(imageId);
         if (!product.getImages().contains(image)) {
             throw new InvalidArgumentsException("This image is not associated with this product.");
         }
         imageRepository.deleteById(imageId);
-
+        return image;
     }
 
     public Image findImageById(Long id) {
         return imageRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Image not found"));
+    }
+
+    public void removeAllImagesFromProduct(Product product) {
+        List<Image> images = imageRepository.findAllByProduct(product);
+        imageRepository.deleteAllInBatch(images);
     }
 
 }

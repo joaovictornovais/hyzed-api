@@ -44,7 +44,10 @@ public class ProductService {
     }
 
     public void delete(Long id) {
-        productRepository.deleteById(id);
+        Product product = findById(id);
+        imageService.removeAllImagesFromProduct(product);
+        sizeService.removeAllSizesFromProduct(product);
+        productRepository.delete(product);
     }
 
     public Product addImageToProduct(Long id, ImageDTO imageDTO) {
@@ -67,7 +70,8 @@ public class ProductService {
 
     public Product removeImageFromProduct(Long productId, Long imageId) {
         Product product = findById(productId);
-        imageService.removeImage(product, imageId);
+        Image image = imageService.removeImage(product, imageId);
+        product.getImages().remove(image);
         return product;
     }
 
