@@ -1,4 +1,4 @@
-package br.com.hyzed.hyzedapi.domain.product;
+package br.com.hyzed.hyzedapi.domain.image;
 
 import jakarta.validation.constraints.NotBlank;
 

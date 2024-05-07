@@ -1,22 +1,20 @@
 package br.com.hyzed.hyzedapi.services;
 
-import br.com.hyzed.hyzedapi.domain.product.Image;
-import br.com.hyzed.hyzedapi.domain.product.ImageDTO;
+import br.com.hyzed.hyzedapi.domain.image.Image;
 import br.com.hyzed.hyzedapi.domain.product.Product;
 import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
-import br.com.hyzed.hyzedapi.repositories.ProductImageRepository;
+import br.com.hyzed.hyzedapi.repositories.ImageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ImageService {
 
-    private final ProductImageRepository imageRepository;
+    private final ImageRepository imageRepository;
 
-    public ImageService(ProductImageRepository imageRepository) {
+    public ImageService(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }
 

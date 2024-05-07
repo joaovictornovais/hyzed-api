@@ -1,9 +1,9 @@
 package br.com.hyzed.hyzedapi.controllers;
 
-import br.com.hyzed.hyzedapi.domain.product.ImageDTO;
+import br.com.hyzed.hyzedapi.domain.image.ImageDTO;
 import br.com.hyzed.hyzedapi.domain.product.Product;
 import br.com.hyzed.hyzedapi.domain.product.ProductDTO;
-import br.com.hyzed.hyzedapi.domain.product.SizeDTO;
+import br.com.hyzed.hyzedapi.domain.size.SizeDTO;
 import br.com.hyzed.hyzedapi.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

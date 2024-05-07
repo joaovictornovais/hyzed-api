@@ -1,12 +1,11 @@
 package br.com.hyzed.hyzedapi.services;
 
 import br.com.hyzed.hyzedapi.domain.product.Product;
-import br.com.hyzed.hyzedapi.domain.product.Size;
-import br.com.hyzed.hyzedapi.domain.product.SizeDTO;
-import br.com.hyzed.hyzedapi.domain.product.Sizes;
+import br.com.hyzed.hyzedapi.domain.size.Size;
+import br.com.hyzed.hyzedapi.domain.size.SizeDTO;
+import br.com.hyzed.hyzedapi.domain.size.Sizes;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
-import br.com.hyzed.hyzedapi.repositories.ProductSizeRepository;
-import org.hibernate.validator.constraints.NotBlank;
+import br.com.hyzed.hyzedapi.repositories.SizeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +14,9 @@ import java.util.Optional;
 @Service
 public class SizeService {
 
-    private final ProductSizeRepository sizeRepository;
+    private final SizeRepository sizeRepository;
 
-    public SizeService(ProductSizeRepository sizeRepository) {
+    public SizeService(SizeRepository sizeRepository) {
         this.sizeRepository = sizeRepository;
     }
 

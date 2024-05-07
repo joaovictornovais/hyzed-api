@@ -1,16 +1,15 @@
 package br.com.hyzed.hyzedapi.services;
 
-import br.com.hyzed.hyzedapi.domain.product.*;
+import br.com.hyzed.hyzedapi.domain.image.Image;
+import br.com.hyzed.hyzedapi.domain.image.ImageDTO;
+import br.com.hyzed.hyzedapi.domain.product.Product;
+import br.com.hyzed.hyzedapi.domain.size.SizeDTO;
 import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
-import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
-import br.com.hyzed.hyzedapi.repositories.ProductImageRepository;
 import br.com.hyzed.hyzedapi.repositories.ProductRepository;
-import br.com.hyzed.hyzedapi.repositories.ProductSizeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
