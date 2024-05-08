@@ -1,6 +1,7 @@
 package br.com.hyzed.hyzedapi.services;
 
 import br.com.hyzed.hyzedapi.domain.user.User;
+import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class UserService {
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User findUserById(String id) {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
 }
