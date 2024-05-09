@@ -29,10 +29,8 @@ public class User implements UserDetails {
     private String lastName;
     @Column(unique = true, nullable = false)
     private String email;
-    @JsonBackReference
     @Column(nullable = false)
     private String password;
-    @JsonBackReference
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -41,7 +39,6 @@ public class User implements UserDetails {
         BeanUtils.copyProperties(data, this);
     }
 
-    @JsonBackReference
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (role == UserRole.ADMIN)
@@ -49,31 +46,26 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    @JsonBackReference
     @Override
     public String getUsername() {
         return email;
     }
 
-    @JsonBackReference
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @JsonBackReference
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @JsonBackReference
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @JsonBackReference
     @Override
     public boolean isEnabled() {
         return true;
