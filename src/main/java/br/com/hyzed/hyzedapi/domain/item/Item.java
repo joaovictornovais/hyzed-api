@@ -3,13 +3,11 @@ package br.com.hyzed.hyzedapi.domain.item;
 import br.com.hyzed.hyzedapi.domain.item.pk.ItemPK;
 import br.com.hyzed.hyzedapi.domain.order.Order;
 import br.com.hyzed.hyzedapi.domain.product.Product;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import br.com.hyzed.hyzedapi.domain.product.ProductDTO;
+import br.com.hyzed.hyzedapi.domain.size.Sizes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 
@@ -27,16 +25,20 @@ public class Item {
     private ItemPK id = new ItemPK();
     private Integer quantity;
     private BigDecimal subtotal;
+    @Enumerated(EnumType.STRING)
+    private Sizes size;
 
-    public Item(Product product, Order order, Integer quantity) {
+    public Item(Product product, Order order, Integer quantity, Sizes size) {
         setProduct(product);
         setOrder(order);
         this.quantity = quantity;
-        this.subtotal = getProduct().getPrice().multiply(BigDecimal.valueOf(quantity));
+        this.subtotal = id.getProduct().getPrice().multiply(BigDecimal.valueOf(quantity));
+        this.size = size;
     }
 
-    public Product getProduct() {
-        return id.getProduct();
+    public ProductDTO getProduct() {
+        Product product = id.getProduct();
+        return new ProductDTO(product.getName(), product.getPrice());
     }
 
     public void setProduct(Product product) {
