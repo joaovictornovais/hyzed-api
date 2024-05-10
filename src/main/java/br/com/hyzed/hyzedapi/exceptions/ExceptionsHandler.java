@@ -31,4 +31,15 @@ public class ExceptionsHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(PaymentRequiredException.class)
+    public ResponseEntity<StandardError> paymentRequired(PaymentRequiredException e, HttpServletRequest request) {
+        StandardError error = new StandardError(
+                HttpStatus.PAYMENT_REQUIRED.value(),
+                "Payment not approved",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).body(error);
+    }
+
 }
