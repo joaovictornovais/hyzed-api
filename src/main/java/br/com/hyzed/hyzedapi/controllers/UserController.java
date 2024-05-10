@@ -7,6 +7,7 @@ import br.com.hyzed.hyzedapi.domain.user.User;
 import br.com.hyzed.hyzedapi.domain.user.UserMinDTO;
 import br.com.hyzed.hyzedapi.services.OrderService;
 import br.com.hyzed.hyzedapi.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/{id}/orders")
-    public ResponseEntity<Order> createOrder(@PathVariable String id, @RequestBody ProductsDTO productsDTO) {
+    public ResponseEntity<Order> createOrder(@PathVariable String id, @RequestBody @Valid ProductsDTO productsDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(orderService.create(id, productsDTO));
     }
 

@@ -3,8 +3,10 @@ package br.com.hyzed.hyzedapi.services;
 import br.com.hyzed.hyzedapi.domain.image.Image;
 import br.com.hyzed.hyzedapi.domain.image.ImageDTO;
 import br.com.hyzed.hyzedapi.domain.product.Product;
+import br.com.hyzed.hyzedapi.domain.product.ProductDTO;
 import br.com.hyzed.hyzedapi.domain.size.SizeDTO;
 import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
+import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.repositories.ProductRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
+        if (id == null) throw new InvalidArgumentsException("ProductID must not be null");
         return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
@@ -36,7 +39,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product update(Long id, Product newProduct) {
+    public Product update(Long id, ProductDTO newProduct) {
         Product product = findById(id);
         BeanUtils.copyProperties(newProduct, product);
         return productRepository.save(product);

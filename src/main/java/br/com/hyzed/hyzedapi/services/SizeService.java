@@ -42,6 +42,8 @@ public class SizeService {
         Optional<Size> size = findBySizeAndProduct(sizeDTO.size(), product);
 
         if (size.isEmpty()) throw new InvalidArgumentsException("There's no variety for this size");
+        if (sizeDTO.size() == null) throw new InvalidArgumentsException("Size should not be null");
+        if (sizeDTO.quantity() == null) throw new InvalidArgumentsException("Quantity should not be null");
         if (sizeDTO.quantity() < 0) throw new InvalidArgumentsException("Quantity to be removed should not be less than 0");
         if (size.get().getQuantity() < sizeDTO.quantity()) throw new InvalidArgumentsException(
                 "The quantity to be excluded is greater than the total quantity");

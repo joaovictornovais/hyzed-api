@@ -52,6 +52,9 @@ public class OrderService {
         User user = userService.findUserById(id);
         Order order = new Order(user);
 
+        if (productsDTO.products().isEmpty())
+            throw new InvalidArgumentsException("Products list should not be blank");
+
         for (ItemDTO item : productsDTO.products()) {
 
             Product product = productService.findById(item.productId());

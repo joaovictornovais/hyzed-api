@@ -39,7 +39,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> edit(@PathVariable Long id, @RequestBody @Valid ProductDTO data) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.update(id, new Product(data)));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.update(id, data));
     }
 
     @DeleteMapping("/{id}")

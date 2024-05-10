@@ -6,9 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record ProductDTO(
-        @NotBlank
+        @NotBlank(message = "Name should not blank")
         String name,
-        @NotNull
+        @NotNull(message = "Price should not be null")
         BigDecimal price
 ) {
 }
