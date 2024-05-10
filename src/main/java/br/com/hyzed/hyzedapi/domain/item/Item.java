@@ -8,6 +8,7 @@ import br.com.hyzed.hyzedapi.domain.size.Sizes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 
 import java.math.BigDecimal;
 
@@ -20,9 +21,15 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = "id")
 public class Item {
 
-    @JsonIgnore
-    @EmbeddedId
-    private ItemPK id = new ItemPK();
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @ManyToOne(cascade = CascadeType.PERSIST) // avoid "save the transient instance before flushing"
+    @JoinColumn(name = "order_id")
+    private Order order;
     private Integer quantity;
     private BigDecimal subtotal;
     @Enumerated(EnumType.STRING)
@@ -32,26 +39,17 @@ public class Item {
         setProduct(product);
         setOrder(order);
         this.quantity = quantity;
-        this.subtotal = id.getProduct().getPrice().multiply(BigDecimal.valueOf(quantity));
+        this.subtotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
         this.size = size;
     }
 
     public ProductDTO getProduct() {
-        Product product = id.getProduct();
         return new ProductDTO(product.getName(), product.getPrice());
-    }
-
-    public void setProduct(Product product) {
-        id.setProduct(product);
     }
 
     @JsonIgnore
     public Order getOrder() {
-        return id.getOrder();
-    }
-
-    public void setOrder(Order order) {
-        id.setOrder(order);
+        return order;
     }
 
 }

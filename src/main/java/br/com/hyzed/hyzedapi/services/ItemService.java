@@ -8,16 +8,16 @@ import br.com.hyzed.hyzedapi.domain.size.Sizes;
 import br.com.hyzed.hyzedapi.repositories.ItemRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final ProductService productService;
 
 
-    public ItemService(ItemRepository itemRepository, ProductService productService) {
+    public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
-        this.productService = productService;
     }
 
     public void saveItem(Item item) {

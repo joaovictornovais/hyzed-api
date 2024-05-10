@@ -1,6 +1,7 @@
 package br.com.hyzed.hyzedapi.domain.product;
 
 import br.com.hyzed.hyzedapi.domain.image.Image;
+import br.com.hyzed.hyzedapi.domain.item.Item;
 import br.com.hyzed.hyzedapi.domain.size.Size;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -33,6 +34,9 @@ public class Product {
     @JsonManagedReference
     @OneToMany(mappedBy = "product")
     Set<Size> sizes = new HashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    Set<Item> items = new HashSet<>();
 
     public Product(ProductDTO data) {
         BeanUtils.copyProperties(data, this);
