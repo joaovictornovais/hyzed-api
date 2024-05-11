@@ -20,7 +20,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/{id}/status")
+    @PutMapping("/{id}/status")
     public ResponseEntity<Order> changeOrderStatus(@PathVariable String id, @RequestBody @Valid OrderStatusDTO orderStatus) {
         orderService.changeOrderStatus(id, orderStatus);
         return ResponseEntity.status(HttpStatus.OK).body(orderService.findById(id));

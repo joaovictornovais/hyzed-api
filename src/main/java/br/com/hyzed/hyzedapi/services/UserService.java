@@ -5,6 +5,8 @@ import br.com.hyzed.hyzedapi.domain.user.UserMinDTO;
 import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.repositories.UserRepository;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -33,6 +35,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
+    @PostAuthorize("returnObject.email() == authentication.name")
     public UserMinDTO getUserMinInfo(String id) {
         User user = findUserById(id);
         return new UserMinDTO(

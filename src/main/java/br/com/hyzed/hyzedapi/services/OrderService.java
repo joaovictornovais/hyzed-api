@@ -16,6 +16,7 @@ import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.exceptions.PaymentRequiredException;
 import br.com.hyzed.hyzedapi.repositories.OrderRepository;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -48,6 +49,7 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found"));
     }
 
+    @PostAuthorize("returnObject.user.email == authentication.name")
     public Order create(String id, ProductsDTO productsDTO) {
         User user = userService.findUserById(id);
         Order order = new Order(user);
@@ -79,6 +81,7 @@ public class OrderService {
 
     }
 
+    @PostAuthorize("@userService.findUserById(#id).email == authentication.name")
     public List<Order> getOrdersByUser(String id) {
         return orderRepository.findOrdersByUser(userService.findUserById(id));
     }
