@@ -2,22 +2,20 @@ package br.com.hyzed.hyzedapi.domain.order;
 
 import br.com.hyzed.hyzedapi.domain.item.Item;
 import br.com.hyzed.hyzedapi.domain.item.ItemOrderDTO;
-import br.com.hyzed.hyzedapi.domain.item.pk.ItemPK;
 import br.com.hyzed.hyzedapi.domain.product.ProductDTO;
 import br.com.hyzed.hyzedapi.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
