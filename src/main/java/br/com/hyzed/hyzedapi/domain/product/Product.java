@@ -3,6 +3,7 @@ package br.com.hyzed.hyzedapi.domain.product;
 import br.com.hyzed.hyzedapi.domain.image.Image;
 import br.com.hyzed.hyzedapi.domain.item.Item;
 import br.com.hyzed.hyzedapi.domain.size.Size;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     Set<Size> sizes = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     Set<Item> items = new HashSet<>();
 
