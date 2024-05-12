@@ -7,10 +7,14 @@ import br.com.hyzed.hyzedapi.domain.product.ProductDTO;
 import br.com.hyzed.hyzedapi.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,13 +46,13 @@ public class Order {
 
     public Order() {
         this.orderStatus = OrderStatus.WAITING_PAYMENT;
-        this.date = Instant.now();
+        this.date = Instant.now().atZone(ZoneId.of("-03:00")).toLocalDateTime().toInstant(ZoneOffset.UTC);
     }
 
     public Order(User user) {
         this.orderStatus = OrderStatus.WAITING_PAYMENT;
-        this.date = Instant.now();
         this.user = user;
+        this.date = Instant.now().atZone(ZoneId.of("-03:00")).toLocalDateTime().toInstant(ZoneOffset.UTC);
     }
 
     public Set<ItemOrderDTO> getItems() {
