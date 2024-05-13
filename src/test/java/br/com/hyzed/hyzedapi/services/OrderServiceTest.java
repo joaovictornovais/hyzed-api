@@ -10,6 +10,7 @@ import br.com.hyzed.hyzedapi.domain.size.SizeDTO;
 import br.com.hyzed.hyzedapi.domain.size.Sizes;
 import br.com.hyzed.hyzedapi.domain.user.RegisterRequestDTO;
 import br.com.hyzed.hyzedapi.domain.user.User;
+import br.com.hyzed.hyzedapi.domain.user.UserRole;
 import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.repositories.OrderRepository;
@@ -23,10 +24,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -43,6 +41,9 @@ class OrderServiceTest {
 
     @Mock
     SizeService sizeService;
+
+    @Mock
+    UserService userService;
 
     @BeforeEach
     void setup() {
@@ -125,19 +126,23 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw a exception when ")
-    void createOrderCase4() {
-        Product product = new Product(1L, "Corta vento", new BigDecimal("180"));
-        SizeDTO sizeDTO = new SizeDTO(Sizes.M, 1);
+    void getOrdersByUserCase1() {
+        User user = new
+                User(UUID.randomUUID().toString(), "Fulano", "da Silva",
+                "fulano@gmail.com", "123456", UserRole.USER);
 
-        Optional<Size> response = sizeService.findBySizeAndProduct(sizeDTO.size(), product);
+        Order order1 = new Order(user);
+        Order order2 = new Order(user);
 
-        Exception thrown = Assertions.assertThrows(InvalidArgumentsException.class, () -> {
-            if (response.isEmpty())
-                throw new InvalidArgumentsException("There is no stock available");
-        });
+        user.getOrders().add(order1);
+        user.getOrders().add(order2);
 
-        Assertions.assertEquals(thrown.getMessage(), "There is no stock available");
+        when(orderService.getOrdersByUser(user.getId())).thenReturn(List.of(order1, order2));
+
+        List<Order> response = orderService.getOrdersByUser(user.getId());
+
+        assertThat(response.size()).isGreaterThan(0);
+        assertThat(response.contains(order1)).isTrue();
+        assertThat(response.contains(order2)).isTrue();
     }
-
 }
