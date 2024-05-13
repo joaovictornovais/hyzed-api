@@ -8,9 +8,7 @@ import br.com.hyzed.hyzedapi.domain.order.OrderStatus;
 import br.com.hyzed.hyzedapi.domain.order.OrderStatusDTO;
 import br.com.hyzed.hyzedapi.domain.order.PaymentResponseDTO;
 import br.com.hyzed.hyzedapi.domain.product.Product;
-import br.com.hyzed.hyzedapi.domain.size.Size;
 import br.com.hyzed.hyzedapi.domain.size.SizeDTO;
-import br.com.hyzed.hyzedapi.domain.size.Sizes;
 import br.com.hyzed.hyzedapi.domain.user.User;
 import br.com.hyzed.hyzedapi.exceptions.EntityNotFoundException;
 import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
@@ -22,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class OrderService {
