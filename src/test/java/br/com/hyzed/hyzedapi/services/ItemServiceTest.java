@@ -6,7 +6,6 @@ import br.com.hyzed.hyzedapi.domain.product.Product;
 import br.com.hyzed.hyzedapi.domain.size.Sizes;
 import br.com.hyzed.hyzedapi.domain.user.RegisterRequestDTO;
 import br.com.hyzed.hyzedapi.domain.user.User;
-import br.com.hyzed.hyzedapi.domain.user.UserRole;
 import br.com.hyzed.hyzedapi.repositories.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
