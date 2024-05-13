@@ -6,6 +6,9 @@ import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.infra.security.TokenService;
 import br.com.hyzed.hyzedapi.repositories.UserRepository;
 import br.com.hyzed.hyzedapi.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,11 @@ public class AuthController {
         this.userService = userService;
     }
 
+    @Operation(description = "Deve retornar um token do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna o token com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida ou mal sucedida")
+    })
     @PostMapping("/login")
     public ResponseEntity<ResponseDTO> login(@RequestBody @Valid LoginRequestDTO data) {
         User user = userRepository.findByEmail(data.email()).orElseThrow(() ->  new EntityNotFoundException("User not found"));
@@ -41,6 +49,11 @@ public class AuthController {
         throw new InvalidArgumentsException("Invalid credentials");
     }
 
+    @Operation(description = "Deve registrar um usuário ao banco de dados e retornar um token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso e token retornado"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO> register(@RequestBody @Valid RegisterRequestDTO data) {
         User user = new User(data);
