@@ -29,5 +29,10 @@ public class Image {
         BeanUtils.copyProperties(data, this);
     }
 
+    public Image(Long id, String url) {
+        this.id = id;
+        this.url = url;
+    }
+
 
 }

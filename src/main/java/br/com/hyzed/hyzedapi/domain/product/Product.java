@@ -44,4 +44,10 @@ public class Product {
         BeanUtils.copyProperties(data, this);
     }
 
+    public Product(Long id, String name, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
 }
