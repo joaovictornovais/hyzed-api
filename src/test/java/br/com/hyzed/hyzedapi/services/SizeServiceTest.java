@@ -168,7 +168,7 @@ class SizeServiceTest {
     void removeSizeCase6() {
         Product product = new Product(1L, "Corta vento", new BigDecimal("180"));
         Size size = new Size(1L, Sizes.M, 10, product);
-        SizeDTO sizeDTO = new SizeDTO(Sizes.M, 10);
+        SizeDTO sizeDTO = new SizeDTO(Sizes.M, 11);
 
         Exception thrown = Assertions.assertThrows(InvalidArgumentsException.class, () -> {
             if (sizeDTO.quantity() > size.getQuantity())
