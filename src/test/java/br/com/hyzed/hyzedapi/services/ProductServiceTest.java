@@ -3,6 +3,7 @@ package br.com.hyzed.hyzedapi.services;
 import br.com.hyzed.hyzedapi.domain.image.Image;
 import br.com.hyzed.hyzedapi.domain.image.ImageDTO;
 import br.com.hyzed.hyzedapi.domain.product.Product;
+import br.com.hyzed.hyzedapi.domain.product.ProductDTO;
 import br.com.hyzed.hyzedapi.domain.size.Size;
 import br.com.hyzed.hyzedapi.domain.size.SizeDTO;
 import br.com.hyzed.hyzedapi.domain.size.Sizes;
@@ -163,6 +164,31 @@ class ProductServiceTest {
 
         assertThat(product.getSizes().contains(size)).isTrue();
         assertThat(firstQuantity).isGreaterThan(finalQuantity);
+    }
+
+    @Test
+    @DisplayName("Should find a Product by name sucessfully")
+    void findProductByNameCase1() {
+        ProductDTO productDTO = new ProductDTO("Corta vento", new BigDecimal("180"));
+        Product product = new Product(productDTO);
+
+        when(productRepository.findByNameIgnoreCase(productDTO.name())).thenReturn(Optional.of(product));
+
+        Optional<Product> response = productRepository.findByNameIgnoreCase(productDTO.name());
+
+        assertThat(response.isPresent()).isTrue();
+        assertThat(response.get().getName()).isEqualTo(productDTO.name());
+    }
+
+    @Test
+    @DisplayName("Should throw a exception when product not found by name")
+    void findProductByNameCase2() {
+        Exception thrown = Assertions.assertThrows(EntityNotFoundException.class, () -> {
+            if (productRepository.findByNameIgnoreCase("Camiseta Hyzed").isEmpty())
+                throw new EntityNotFoundException("Product not found");
+        });
+
+        Assertions.assertEquals(thrown.getMessage(), "Product not found");
     }
 
 }

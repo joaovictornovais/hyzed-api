@@ -42,6 +42,16 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.findById(id));
     }
 
+    @Operation(description = "Busca um produto pelo nome")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna o produto"),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
+    @GetMapping(params = "name")
+    public ResponseEntity<Product> findByName(@RequestParam("name") String name) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductByName(name));
+    }
+
     @Operation(description = "Salva um novo produto no banco de dados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Produto salvo com sucesso"),

@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -75,6 +76,12 @@ public class ProductService {
         Image image = imageService.removeImage(product, imageId);
         product.getImages().remove(image);
         return product;
+    }
+
+    public Product findProductByName(String name) {
+        Optional<Product> product = productRepository.findByNameIgnoreCase(name);
+        if (product.isPresent()) return product.get();
+        throw new EntityNotFoundException("Product not found");
     }
 
 
