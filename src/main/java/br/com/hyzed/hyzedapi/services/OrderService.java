@@ -15,11 +15,13 @@ import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.exceptions.PaymentRequiredException;
 import br.com.hyzed.hyzedapi.repositories.OrderRepository;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -46,36 +48,36 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found"));
     }
 
-    @PostAuthorize("returnObject.user.email == authentication.name")
-    public Order create(String id, ProductsDTO productsDTO) {
-        User user = userService.findUserById(id);
-        Order order = new Order(user);
+    public Order create(UserDetails userDetails, ProductsDTO productsDTO) {
+        Optional<User> user = userService.findByEmail(userDetails.getUsername());
+        if (user.isPresent()) {
+            Order order = new Order(user.get());
+            if (productsDTO.products().isEmpty())
+                throw new InvalidArgumentsException("Products list should not be blank");
 
-        if (productsDTO.products().isEmpty())
-            throw new InvalidArgumentsException("Products list should not be blank");
+            for (ItemDTO item : productsDTO.products()) {
 
-        for (ItemDTO item : productsDTO.products()) {
+                Product product = productService.findById(item.productId());
+                SizeDTO sizeDTO = new SizeDTO(item.size(), item.quantity());
 
-            Product product = productService.findById(item.productId());
-            SizeDTO sizeDTO = new SizeDTO(item.size(), item.quantity());
+                try {
+                    sizeService.removeSize(product, sizeDTO);
+                } catch (InvalidArgumentsException e) {
+                    throw new InvalidArgumentsException("Unavailable stock for this product");
+                }
 
-            try {
-                sizeService.removeSize(product, sizeDTO);
-            } catch (InvalidArgumentsException e) {
-                throw new InvalidArgumentsException("Unavailable stock for this product");
+                Item orderItem = itemService.createItem(order, product, item.quantity(), item.size());
+                itemService.saveItem(orderItem);
+
+                if (order.getTotal() == null) order.setTotal(orderItem.getSubtotal());
+                else order.setTotal(order.getTotal().add(orderItem.getSubtotal()));
+
+                order.setItems(orderItem);
             }
-
-            Item orderItem = itemService.createItem(order, product, item.quantity(), item.size());
-            itemService.saveItem(orderItem);
-
-            if (order.getTotal() == null) order.setTotal(orderItem.getSubtotal());
-            else order.setTotal(order.getTotal().add(orderItem.getSubtotal()));
-
-            order.setItems(orderItem);
+            orderRepository.save(order);
+            return order;
         }
-        orderRepository.save(order);
-        return order;
-
+        throw new EntityNotFoundException("User not found");
     }
 
     @PostAuthorize("@userService.findUserById(#id).email == authentication.name")

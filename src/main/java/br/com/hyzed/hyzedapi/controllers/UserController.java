@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +31,13 @@ public class UserController {
         this.orderService = orderService;
     }
 
+    @Operation(description = "Retorna informações minimas do usuario logado")
+    @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso")
+    @GetMapping
+    public ResponseEntity<UserMinDTO> getUser(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(userDetails));
+    }
+
     @Operation(description = "Retorna as informações minimas de um usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso"),
@@ -38,18 +47,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserMinDTO> getUserMinInfo(@PathVariable String id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserMinInfo(id));
-    }
-
-    @Operation(description = "Cria uma ordem de pedido para o usuário")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ordem de pedido criado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
-        }
-    )
-    @PostMapping("/{id}/orders")
-    public ResponseEntity<Order> createOrder(@PathVariable String id, @RequestBody @Valid ProductsDTO productsDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(orderService.create(id, productsDTO));
     }
 
     @Operation(description = "Retorna todas as ordens de pedidos de um usuário")

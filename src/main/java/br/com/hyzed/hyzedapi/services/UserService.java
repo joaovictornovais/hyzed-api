@@ -7,9 +7,12 @@ import br.com.hyzed.hyzedapi.exceptions.InvalidArgumentsException;
 import br.com.hyzed.hyzedapi.repositories.UserRepository;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 public class UserService {
@@ -44,6 +47,12 @@ public class UserService {
                 user.getLastName(),
                 user.getEmail()
         );
+    }
+
+    public UserMinDTO getUser(UserDetails userDetails) {
+        Optional<User> user = findByEmail(userDetails.getUsername());
+
+        return new UserMinDTO(user.get().getId(), user.get().getFirstName(), user.get().getLastName(), user.get().getEmail());
     }
 
 }
