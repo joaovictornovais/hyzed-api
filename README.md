@@ -67,7 +67,8 @@ $ java -jar target/hyzed-api-0.0.1-SNAPSHOT.jar
 | <kbd>GET /swagger-ui/index.html                      | Página da documentação do SWAGGER
 | <kbd>POST /auth/login</kbd>                          | Retorna token de acesso
 | <kbd>POST /auth/register</kbd>                       | Registra nova conta e retorna token de acesso
-| <kbd>PUT /orders/{id}/status</kbd>                   | Atualizar o status de um pedido
+| <kbd>POST /orders</kbd>                              | Cria uma nova ordem de pedido ao usuário logado
+| <kbd>PUT /orders/{id}/status</kbd>                   | Atualiza o status de uma ordem de pedido
 | <kbd>GET /products/{id}</kbd>                        | Busca um produto por ID
 | <kbd>GET /products?name={name}</kbd>                 | Busca um produto pelo nome
 | <kbd>POST /products </kbd>                           | Salva um produto na base de dados
@@ -78,5 +79,4 @@ $ java -jar target/hyzed-api-0.0.1-SNAPSHOT.jar
 | <kbd>POST /products/{id}/sizes</kbd>                 | Adiciona estoque de um tamanho ao produto
 | <kbd>DELETE /products/{id}/sizes</kbd>               | Remove o estoque de um tamanho do produto
 | <kbd>GET /users/{id}</kbd>                           | Retorna informações mínimas de um usuário
-| <kbd>POST /users/{id}/orders</kbd>                   | Cria uma nova ordem de pedido ao usuário
 | <kbd>GET /users/{id}/orders</kbd>                    | Retorna todas as ordens de pedido de um usuário
